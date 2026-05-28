@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Sensing4U.v1.Services
+namespace Sensing4U.Services
 {
     public static class FileManager
     {
@@ -80,7 +80,7 @@ namespace Sensing4U.v1.Services
                 {
                     foreach (var r in readings)
                     {
-                        writer.WriteLine($"{r.Timestamp},{r.Label},{r.Value.ToString(null, CultureInfo.InvariantCulture)},{r.Unit}");
+                        writer.WriteLine($"{r.Timestamp},{r.Label},{r.Value.ToString(null, CultureInfo.InvariantCulture)}, {r.Unit}");
                     }
                 }
 
@@ -155,5 +155,4 @@ namespace Sensing4U.v1.Services
         }
     }
 }
-#pragma warning restore SYSLIB0011
 

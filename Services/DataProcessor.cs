@@ -7,7 +7,7 @@ namespace Sensing4U.Services
 {
     public class DataProcessor
     {
-        private static DataProcessor? instance;
+        public static DataProcessor? Instance;
 
         // List of datasets (each dataset is a 2D array)
         private readonly List<SensorReading[,]> datasets;
@@ -23,10 +23,10 @@ namespace Sensing4U.Services
 
         public static DataProcessor GetInstance()
         {
-            if (instance == null)
-                instance = new DataProcessor();
+            if (Instance == null)
+                Instance = new DataProcessor();
 
-            return instance;
+            return Instance;
         }
 
         // ------------------------------------------------------------
@@ -161,7 +161,7 @@ namespace Sensing4U.Services
             if (rows == 0) return 0;
 
             double sum = 0;
-            // Iterate directly through the 2D array - No List conversion needed!
+            // Iterate directly through the 2D array 
             for (int i = 0; i < rows; i++)
             {
                sum += array[i, 0].Value ?? 0;
@@ -180,9 +180,6 @@ namespace Sensing4U.Services
 
             int rows = array.GetLength(0);
 
-            // We only create the list if we MUST sort it
-            // NOTE: If you keep your data sorted at all times, 
-            // you can remove the Sort entirely and search the array directly!
 
             // Optimization: If the array is already sorted, search directly
             int left = 0;
@@ -197,7 +194,7 @@ namespace Sensing4U.Services
                 if (cmp < 0) left = mid + 1;
                 else right = mid - 1;
             }
-
+             
             return null;
         }
     }

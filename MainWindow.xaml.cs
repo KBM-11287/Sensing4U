@@ -20,17 +20,11 @@ namespace Sensing4U
             RefreshUI();
         }
 
-        // ------------------------------------------------------------
-        // Helper: Update Status Bar
-        // ------------------------------------------------------------
         private void SetStatus(string msg)
         {
             txtStatus.Text = msg;
         }
 
-        // ------------------------------------------------------------
-        // Helper: Refresh DataGrid + Average
-        // ------------------------------------------------------------
         private void RefreshUI()
         {
             var list = DataProcessor.Instance.GetCurrentDatasetAsList();
@@ -42,37 +36,31 @@ namespace Sensing4U
             SetStatus("Dataset refreshed");
         }
 
-        // ------------------------------------------------------------
         // LOAD CSV
-        // ------------------------------------------------------------
         private void LoadCsv_Click(object sender, RoutedEventArgs e)
         {
             if (FileManager.LoadCsv("dataset.csv", _tempList, out string msg))
             {
-                DataProcessor.Instance.AddDataset(_tempList, "CSV Dataset");
+                DataProcessor.Instance.AddDataset("CSV Dataset", _tempList  );
                 RefreshUI();
             }
 
             SetStatus(msg);
         }
 
-        // ------------------------------------------------------------
         // LOAD BINARY
-        // ------------------------------------------------------------
         private void LoadBin_Click(object sender, RoutedEventArgs e)
         {
             if (FileManager.LoadBinary("dataset.bin", _tempList, out string msg))
             {
-                DataProcessor.Instance.AddDataset(_tempList, "Binary Dataset");
+                DataProcessor.Instance.AddDataset("Binary Dataset", _tempList);
                 RefreshUI();
             }
 
             SetStatus(msg);
         }
 
-        // ------------------------------------------------------------
         // SAVE CSV
-        // ------------------------------------------------------------
         private void SaveCsv_Click(object sender, RoutedEventArgs e)
         {
             var list = DataProcessor.Instance.GetCurrentDatasetAsList();
@@ -83,9 +71,7 @@ namespace Sensing4U
                 SetStatus(msg);
         }
 
-        // ------------------------------------------------------------
         // SAVE BINARY
-        // ------------------------------------------------------------
         private void SaveBin_Click(object sender, RoutedEventArgs e)
         {
             var list = DataProcessor.Instance.GetCurrentDatasetAsList();
@@ -96,9 +82,7 @@ namespace Sensing4U
                 SetStatus(msg);
         }
 
-        // ------------------------------------------------------------
         // SEARCH
-        // ------------------------------------------------------------
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
             string label = txtSearch.Text.Trim();
@@ -111,18 +95,12 @@ namespace Sensing4U
             var result = DataProcessor.Instance.BinarySearchCurrent(label);
 
             if (result != null)
-            {
                 SetStatus($"Found: {result.Label} = {result.Value} {result.Unit}");
-            }
             else
-            {
                 SetStatus("Label not found");
-            }
         }
 
-        // ------------------------------------------------------------
         // UPDATE BOUNDS
-        // ------------------------------------------------------------
         private void UpdateThresholds_Click(object sender, RoutedEventArgs e)
         {
             if (double.TryParse(txtLower.Text, out double lo))
@@ -135,9 +113,7 @@ namespace Sensing4U
             SetStatus("Bounds updated");
         }
 
-        // ------------------------------------------------------------
         // ROW COLOURING
-        // ------------------------------------------------------------
         private void SensorGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             if (e.Row.Item is not SensorReading reading)
@@ -151,9 +127,7 @@ namespace Sensing4U
                 e.Row.Background = Brushes.LightGreen;
         }
 
-        // ------------------------------------------------------------
         // NAVIGATION
-        // ------------------------------------------------------------
         private void BtnPrev_Click(object sender, RoutedEventArgs e)
         {
             DataProcessor.Instance.MovePrevious();
