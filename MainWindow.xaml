@@ -4,35 +4,46 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Sensing4U Dashboard" Height="500" Width="900">
+        Title="Sensing4U Dashboard" Height="550" Width="950">
 
     <DockPanel Margin="10">
-        <StackPanel DockPanel.Dock="Top">
-            <Menu Height="25">
-                <MenuItem Header="_File">
-                    <MenuItem Header="Load Binary" Click="LoadBin_Click"/>
-                    <MenuItem Header="Load CSV" Click="LoadCsv_Click"/>
-                    <Separator/>
-                    <MenuItem Header="Save Binary" Click="SaveBin_Click"/>
-                    <MenuItem Header="Save CSV" Click="SaveCsv_Click"/>
-                </MenuItem>
-            </Menu>
 
-            <StackPanel Orientation="Horizontal" Margin="0,10">
-                <Label Content="Search (Label):" VerticalAlignment="Center"/>
-                <TextBox x:Name="txtSearch" Width="100" Margin="5,0"/>
-                <Button Content="Search" Click="BtnSearch_Click" Width="70"/>
+        <!-- MENU BAR -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="Load Binary" Click="LoadBin_Click"/>
+                <MenuItem Header="Load CSV" Click="LoadCsv_Click"/>
+                <Separator/>
+                <MenuItem Header="Save Binary" Click="SaveBin_Click"/>
+                <MenuItem Header="Save CSV" Click="SaveCsv_Click"/>
+            </MenuItem>
+        </Menu>
 
-                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10,0"/>
+        <!-- TOP CONTROLS -->
+        <StackPanel DockPanel.Dock="Top" Margin="0,10">
 
-                <Label Content="Lower:" VerticalAlignment="Center"/>
-                <TextBox x:Name="txtLower" Width="50" Text="10" VerticalAlignment="Center"/>
-                <Label Content="Upper:" VerticalAlignment="Center"/>
-                <TextBox x:Name="txtUpper" Width="50" Text="50" VerticalAlignment="Center"/>
-                <Button Content="Set Bounds" Click="UpdateThresholds_Click" Margin="5,0"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+
+                <!-- Dataset Navigation -->
+                <Button Content="◀" Width="35" Click="BtnPrev_Click"/>
+                <Button Content="▶" Width="35" Margin="5,0" Click="BtnNext_Click"/>
+
+                <Label Content="Search (Label):" Margin="15,0,0,0"/>
+                <TextBox x:Name="txtSearch" Width="120"/>
+                <Button Content="Search" Width="70" Margin="5,0" Click="BtnSearch_Click"/>
+
+                <Separator Margin="10,0"/>
+
+                <Label Content="Lower:"/>
+                <TextBox x:Name="txtLower" Width="50" Text="10"/>
+                <Label Content="Upper:" Margin="10,0,0,0"/>
+                <TextBox x:Name="txtUpper" Width="50" Text="50"/>
+                <Button Content="Set Bounds" Margin="5,0" Click="UpdateThresholds_Click"/>
+
             </StackPanel>
         </StackPanel>
 
+        <!-- STATUS BAR -->
         <StatusBar DockPanel.Dock="Bottom" Background="LightGray">
             <StatusBarItem>
                 <TextBlock Text="Average Value: "/>
@@ -40,13 +51,30 @@
             <StatusBarItem>
                 <TextBlock x:Name="txtAverage" Text="0.00" FontWeight="Bold"/>
             </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text=" | Status: "/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock x:Name="txtStatus" Text="Ready" FontWeight="Bold"/>
+            </StatusBarItem>
         </StatusBar>
 
-        <DataGrid x:Name="SensorGrid" 
-                  AutoGenerateColumns="True" 
-                  CanUserAddRows="False" 
+        <!-- DATA GRID -->
+        <DataGrid x:Name="SensorGrid"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
                   IsReadOnly="True"
                   LoadingRow="SensorGrid_LoadingRow"
-                  Margin="0,5"/>
+                  Margin="0,10">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}" Width="*"/>
+                <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="*"/>
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*"/>
+                <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="*"/>
+            </DataGrid.Columns>
+
+        </DataGrid>
+
     </DockPanel>
 </Window>
