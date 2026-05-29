@@ -7,7 +7,7 @@ namespace Sensing4U.Services
 {
     public class DataProcessor
     {
-        public static DataProcessor? Instance;
+        private static DataProcessor Instance = null;
 
         // List of datasets (each dataset is a 2D array)
         private readonly List<SensorReading[,]> datasets;

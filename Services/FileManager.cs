@@ -1,15 +1,21 @@
 ﻿#pragma warning disable SYSLIB0011
 using Sensing4U.Models;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows;
 
 namespace Sensing4U.Services
 {
     public static class FileManager
     {
-        private static readonly string DataFolder =
-            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
+        private static readonly string DataFolder = 
+        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../Data");
+
+        /// <summary>
+        /// C:\Users\30011287\Source\Repos\Sensing4U\Data\
+        /// </summary>
 
         static FileManager()
         {
@@ -28,6 +34,9 @@ namespace Sensing4U.Services
             try
             {
                 string fullPath = Path.Combine(DataFolder, fileName);
+
+
+            //C: \Users\30011287\Source\Repos\Sensing4U\Data\testdata_1.csv
 
                 foreach (var line in File.ReadAllLines(fullPath))
                 {

@@ -10,6 +10,7 @@ namespace Sensing4U
 {
     public partial class MainWindow : Window
     {
+        private  DataProcessor _dataProcessor = DataProcessor.GetInstance();
         private readonly List<SensorReading> _tempList = new();
         private double _lower = 10;
         private double _upper = 50;
@@ -27,12 +28,12 @@ namespace Sensing4U
 
         private void RefreshUI()
         {
-            var list = DataProcessor.Instance.GetCurrentDatasetAsList();
+            var list = _dataProcessor.GetCurrentDatasetAsList();
             SensorGrid.ItemsSource = list;
 
-            var currentDataset = DataProcessor.Instance.GetCurrentDataset();
+            var currentDataset = _dataProcessor.GetCurrentDataset();
             double avg = currentDataset != null
-                ? DataProcessor.Instance.CalculateAverageCurrent()
+                ? _dataProcessor.CalculateAverageCurrent()
                 : 0.0;
             txtAverage.Text = avg.ToString("0.00");
 
@@ -42,9 +43,9 @@ namespace Sensing4U
         // LOAD CSV
         private void LoadCsv_Click(object sender, RoutedEventArgs e)
         {
-            if (FileManager.LoadCsv("dataset.csv", _tempList, out string msg))
+            if (FileManager.LoadCsv("testdata_1_updated.csv", _tempList, out string msg))
             {
-                DataProcessor.Instance.AddDataset("CSV Dataset", _tempList  );
+                _dataProcessor.AddDataset("CSV Dataset", _tempList  );
                 RefreshUI();
             }
 
@@ -56,7 +57,7 @@ namespace Sensing4U
         {
             if (FileManager.LoadBinary("dataset.bin", _tempList, out string msg))
             {
-                DataProcessor.Instance.AddDataset("Binary Dataset", _tempList);
+               _dataProcessor.AddDataset("Binary Dataset", _tempList);
                 RefreshUI();
             }
 
@@ -66,7 +67,7 @@ namespace Sensing4U
         // SAVE CSV
         private void SaveCsv_Click(object sender, RoutedEventArgs e)
         {
-            var list = DataProcessor.Instance.GetCurrentDatasetAsList();
+            var list =_dataProcessor.GetCurrentDatasetAsList();
 
             if (FileManager.SaveCsv("saved.csv", list, out string msg))
                 SetStatus("CSV saved successfully");
@@ -77,7 +78,7 @@ namespace Sensing4U
         // SAVE BINARY
         private void SaveBin_Click(object sender, RoutedEventArgs e)
         {
-            var list = DataProcessor.Instance.GetCurrentDatasetAsList();
+            var list =_dataProcessor.GetCurrentDatasetAsList();
 
             if (FileManager.SaveBinary("saved.bin", list, out string msg))
                 SetStatus("Binary saved successfully");
@@ -95,7 +96,7 @@ namespace Sensing4U
                 return;
             }
 
-            var result = DataProcessor.Instance.BinarySearchCurrent(label);
+            var result =_dataProcessor.BinarySearchCurrent(label);
 
             if (result != null)
                 SetStatus($"Found: {result.Label} = {result.Value} {result.Unit}");
@@ -133,13 +134,13 @@ namespace Sensing4U
         // NAVIGATION
         private void BtnPrev_Click(object sender, RoutedEventArgs e)
         {
-            DataProcessor.Instance.MovePrevious();
+           _dataProcessor.MovePrevious();
             RefreshUI();
         }
 
         private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
-            DataProcessor.Instance.MoveNext();
+           _dataProcessor.MoveNext();
             RefreshUI();
         }
     }
