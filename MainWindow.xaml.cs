@@ -30,7 +30,10 @@ namespace Sensing4U
             var list = DataProcessor.Instance.GetCurrentDatasetAsList();
             SensorGrid.ItemsSource = list;
 
-            double avg = DataProcessor.Instance.CalculateAverageCurrent();
+            var currentDataset = DataProcessor.Instance.GetCurrentDataset();
+            double avg = currentDataset != null
+                ? DataProcessor.Instance.CalculateAverageCurrent()
+                : 0.0;
             txtAverage.Text = avg.ToString("0.00");
 
             SetStatus("Dataset refreshed");

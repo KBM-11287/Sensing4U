@@ -164,7 +164,7 @@ namespace Sensing4U.Services
             // Iterate directly through the 2D array 
             for (int i = 0; i < rows; i++)
             {
-               sum += array[i, 0].Value ?? 0;
+                sum += array[i, 0].Value;
             }
 
             return sum / rows;

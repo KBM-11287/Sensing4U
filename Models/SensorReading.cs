@@ -12,5 +12,8 @@ namespace Sensing4U.Models
         public required string Label { get; set; } // The type of reading, e.g., "Temperature", "Humidity", "LightLevel"
         public double Value { get; set; } // numeric value, nullable in case of non-numeric readings
         public required string Unit { get; set; } // e.g., "°C", "%", "Lux"
+        
+
     }
+
 }
